@@ -18,14 +18,8 @@ public class CHLogs {
 		msg = log;
 		save = salvar; 
 		
-		Anunciar();
 		if (salvar)
 		salvarLog();
-	}
-	
-	private void Anunciar()
-	{
-		System.out.print(msg);
 	}
 	
 	 private void salvarLog() {
@@ -34,6 +28,23 @@ public class CHLogs {
 		      if (!saveTo.exists()) {
 		        saveTo.createNewFile();
 		      }
+		      long tamanho = saveTo.length();
+		      long limite = 1000000;
+		      if (tamanho >= limite)
+		      {
+		    	  DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+			      Date date = new Date();
+		    	  File limit = new File("CHLog - " + dateFormat.format(date) + ".log");
+		    	  if(saveTo.renameTo(limit)){
+		    	        System.out.println("Nova fila criada com exito");
+		    	        saveTo.createNewFile();
+		    	  }
+		    	  else
+		    	  {
+		  	        System.out.println("Ocoreu um erro ao tentar criar uma nova fila"); 
+		    	  }
+		      }
+		      
 		      FileWriter fw = new FileWriter(saveTo, true);
 		      PrintWriter pw = new PrintWriter(fw);
 		      DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
